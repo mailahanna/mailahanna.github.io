@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kopi Kenangan Style - Coffee Shop Game</title>
+<style>
+:root{
+  --cream:#f7f2e8; --cream2:#fffaf2; --green:#718267; --dark:#354635;
+  --sage:#dce5d7; --brown:#775943; --coffee:#4a3327; --latte:#dfc09c;
+  --avocado:#9caf73; --soft:#eee4d4; --pink:#e9a29a;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--dark);overflow-x:hidden}
+button{font:inherit}
+header{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 7%;
+background:rgba(247,242,232,.94);backdrop-filter:blur(9px);position:sticky;top:0;z-index:30;border-bottom:1px solid #e8dccb}
+.logo{font-weight:900;font-size:1.25rem;letter-spacing:.5px}.logo b{color:var(--brown)}
+nav button{border:0;background:transparent;padding:10px 14px;border-radius:20px;font-weight:800;color:var(--dark);cursor:pointer}
+nav button:hover{background:var(--soft)}
+.page{display:none;min-height:calc(100vh - 76px);padding:42px 7%;animation:enter .55s ease}
+.page.active{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero{min-height:76vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:28px}
+.badge{font-weight:800;color:var(--brown);letter-spacing:1px}.hero h1{font-size:clamp(2.6rem,6vw,5.1rem);line-height:1;margin:13px 0;color:var(--dark)}
+.hero p{font-size:1.08rem;line-height:1.7;max-width:590px}
+.btn{border:0;cursor:pointer;border-radius:15px;padding:14px 21px;font-weight:900}.primary{background:var(--dark);color:white;box-shadow:0 8px 0 #263626}.primary:active{transform:translateY(4px);box-shadow:0 4px 0 #263626}
+.section-title{text-align:center;font-size:2.2rem;margin:0 0 25px}
+
+.mascot-area{display:flex;justify-content:center;position:relative;min-height:380px}
+.steam{position:absolute;width:150px;height:150px;top:20px}
+.steam i{position:absolute;width:28px;height:80px;border-left:7px solid white;border-radius:50%;opacity:0;animation:steam 2.5s infinite}
+.steam i:nth-child(1){left:25px}.steam i:nth-child(2){left:75px;animation-delay:.8s}
+@keyframes steam{0%{transform:translateY(30px);opacity:0}45%{opacity:.75}100%{transform:translateY(-35px);opacity:0}}
+.mascot{position:relative;width:275px;height:315px;margin-top:50px;background:linear-gradient(135deg,#eed0ad,var(--latte));border-radius:45% 45% 42% 42%;box-shadow:inset -13px -12px rgba(119,89,67,.12),0 22px 35px rgba(74,51,39,.16);animation:bob 2.3s infinite ease-in-out}
+@keyframes bob{50%{transform:translateY(-13px) rotate(2deg)}}
+.lid{position:absolute;width:80%;height:42px;background:var(--dark);left:10%;top:-12px;border-radius:50%;box-shadow:0 7px #273526}.handle{position:absolute;right:-35px;top:95px;width:75px;height:105px;border:18px solid var(--latte);border-left:0;border-radius:0 50px 50px 0}.eyes{position:absolute;top:120px;left:0;right:0;text-align:center;font-size:48px;letter-spacing:14px}.smile{position:absolute;top:157px;left:112px;font-size:32px}.blush{position:absolute;top:172px;width:38px;height:16px;border-radius:50%;background:var(--pink);opacity:.65}.blush.left{left:42px}.blush.right{right:42px}.cupname{position:absolute;bottom:43px;width:100%;text-align:center;font-weight:900;color:var(--dark);font-size:1.15rem}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}.card{background:white;border:1px solid #eadfce;border-radius:23px;padding:21px;box-shadow:0 12px 28px rgba(74,51,39,.07);transition:.25s}.card:hover{transform:translateY(-6px)}.drink{font-size:55px}.price{font-weight:900;color:var(--brown)}
+
+.game-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:25px;max-width:1100px;margin:auto}.panel{background:white;border-radius:26px;padding:25px;box-shadow:0 12px 35px rgba(74,51,39,.09)}
+.customer-zone{background:linear-gradient(180deg,var(--sage),#edf2e9);border-radius:20px;padding:18px;text-align:center;min-height:330px;overflow:hidden}
+.customer{display:inline-block;position:relative;margin-top:30px;animation:customerEnter .8s ease both}
+.customer.hidden{display:none}
+@keyframes customerEnter{from{transform:translateX(170px);opacity:0}to{transform:none;opacity:1}}
+.head{width:105px;height:110px;background:#e6b48d;border-radius:50% 50% 44% 44%;margin:auto;position:relative;box-shadow:inset -6px -5px rgba(0,0,0,.04)}
+.hair{position:absolute;top:-10px;left:4px;width:97px;height:48px;background:#573b2d;border-radius:50% 50% 20px 20px}.eye{position:absolute;top:54px;width:10px;height:13px;background:#2d241f;border-radius:50%}.eye.a{left:27px}.eye.b{right:27px}.mouth{position:absolute;top:76px;left:43px;width:22px;height:11px;border-bottom:3px solid #704c42;border-radius:50%}.body{width:140px;height:125px;background:var(--brown);border-radius:48px 48px 14px 14px;margin:-5px auto 0}.bubble{background:white;border-radius:18px;padding:12px 15px;max-width:260px;margin:0 auto 12px;font-weight:800;box-shadow:0 7px 18px rgba(0,0,0,.07);position:relative}.bubble:after{content:"";position:absolute;bottom:-9px;left:50%;border:10px solid transparent;border-top-color:white;border-bottom:0}
+.order-box{background:var(--soft);padding:16px;border-radius:16px;font-weight:700;line-height:1.5}.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.choice{border:2px solid #e7dac7;background:#fff;border-radius:15px;padding:14px 8px;font-weight:800;cursor:pointer;transition:.2s}.choice:hover{transform:translateY(-2px)}.choice.selected{border-color:var(--green);background:#eef4eb}.score{font-weight:900;color:var(--brown);font-size:1.1rem}.message{min-height:24px;color:var(--brown);font-weight:700}
+
+#spill{position:fixed;inset:0;z-index:999;pointer-events:none;overflow:hidden;transform:translateY(120%);transition:transform .85s cubic-bezier(.7,0,.2,1)}
+.spill-bg{position:absolute;inset:-15%;background:radial-gradient(ellipse at 52% 45%,#b5c685 0 22%,#7c9658 23% 45%,#5b743e 46% 100%);border-radius:50%;transform:rotate(-7deg)}
+.avocado-cup{position:absolute;left:44%;top:36%;font-size:90px;transform:rotate(-35deg);filter:drop-shadow(0 12px 8px rgba(0,0,0,.2))}.splash{position:absolute;width:80px;height:140px;background:#a9bd79;border-radius:80% 20% 80% 20%;top:15%;left:22%;transform:rotate(35deg)}.splash.s2{left:70%;top:30%;transform:rotate(-40deg);height:100px}.splash.s3{left:50%;top:5%;width:45px;height:100px}
+body.spilling #spill{transform:translateY(0)}
+
+@media(max-width:760px){header{padding:0 4%}.hero,.game-layout{grid-template-columns:1fr}.hero{padding-top:15px}.mascot-area{min-height:330px}.mascot{transform:scale(.86);margin-top:30px}nav button{font-size:.75rem;padding:8px 6px}.choices{grid-template-columns:1fr}.page{padding:30px 5%}}
+</style>
+</head>
+<body>
+<div id="spill"><div class="spill-bg"></div><div class="splash"></div><div class="splash s2"></div><div class="splash s3"></div><div class="avocado-cup">🥑☕</div></div>
+
+<header>
+ <div class="logo">KOPI <b>KENANGAN</b></div>
+ <nav><button onclick="go('home')">Beranda</button><button onclick="go('menu')">Menu</button><button onclick="go('game')">Main</button></nav>
+</header>
+
+<section id="home" class="page active">
+ <div class="hero">
+  <div>
+   <div class="badge">SOFT COFFEE SHOP GAME</div>
+   <h1>Seduh Kopi,<br>Ciptakan Kenangan.</h1>
+   <p>Jadilah barista di coffee shop bernuansa hijau dan cokelat yang hangat. Layani pelanggan dengan cepat dan sajikan kopi sesuai pesanan mereka!</p>
+   <button class="btn primary" onclick="go('game')">Mulai Melayani</button>
+  </div>
+  <div class="mascot-area">
+   <div class="steam"><i></i><i></i></div>
+   <div class="mascot"><div class="lid"></div><div class="handle"></div><div class="eyes">• •</div><div class="smile">ᴗ</div><div class="blush left"></div><div class="blush right"></div><div class="cupname">KOPI KENANGAN</div></div>
+  </div>
+ </div>
+</section>
+
+<section id="menu" class="page">
+ <h2 class="section-title">Menu Coffee Shop</h2>
+ <div class="card-grid">
+  <div class="card"><div class="drink">☕</div><h3>Kopi Susu</h3><p>Espresso creamy dan susu lembut.</p><div class="price">Rp18.000</div></div>
+  <div class="card"><div class="drink">🧊☕</div><h3>Es Kopi Aren</h3><p>Manis lembut dengan gula aren.</p><div class="price">Rp20.000</div></div>
+  <div class="card"><div class="drink">🥑☕</div><h3>Coffee Alpukat</h3><p>Perpaduan alpukat creamy dan kopi.</p><div class="price">Rp23.000</div></div>
+  <div class="card"><div class="drink">🍫</div><h3>Chocolate Cloud</h3><p>Cokelat manis dengan foam lembut.</p><div class="price">Rp21.000</div></div>
+ </div>
+</section>
+
+<section id="game" class="page">
+ <h2 class="section-title">Coffee Rush: Layani Pelanggan</h2>
+ <div class="game-layout">
+  <div class="panel">
+   <div class="score">Skor: <span id="score">0</span> ⭐ &nbsp; Pelanggan: <span id="served">0</span></div>
+   <div class="customer-zone">
+    <div id="bubble" class="bubble">Tekan pelanggan baru untuk mulai!</div>
+    <div id="customer" class="customer hidden"><div class="head"><div class="hair"></div><div class="eye a"></div><div class="eye b"></div><div class="mouth"></div></div><div class="body"></div></div>
+   </div>
+   <button class="btn primary" onclick="newOrder()">Pelanggan Baru</button>
+  </div>
+
+  <div class="panel">
+   <h3>Meja Barista</h3>
+   <div id="orderBox" class="order-box">Belum ada pesanan.</div>
+   <div class="choices">
+    <button class="choice" data-drink="Kopi Susu">☕<br>Kopi Susu</button>
+    <button class="choice" data-drink="Es Kopi Aren">🧊☕<br>Es Kopi Aren</button>
+    <button class="choice" data-drink="Coffee Alpukat">🥑☕<br>Coffee Alpukat</button>
+    <button class="choice" data-drink="Chocolate Cloud">🍫<br>Chocolate Cloud</button>
+   </div>
+   <button class="btn primary" style="margin-top:16px" onclick="serve()">Sajikan Pesanan</button>
+   <p id="message" class="message"></p>
+  </div>
+ </div>
+</section>
+
+<script>
+const drinks=["Kopi Susu","Es Kopi Aren","Coffee Alpukat","Chocolate Cloud"];
+const customerTexts=["Aku pengen yang creamy, dong!","Halo kak, aku mau minum!","Hari ini haus banget nih!","Boleh pesan yang enak, ya?"];
+let current="", selected="", score=0, served=0;
+
+function go(id){
+ document.body.classList.add("spilling");
+ setTimeout(()=>{
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+ },430);
+ setTimeout(()=>document.body.classList.remove("spilling"),920);
+}
+
+document.querySelectorAll(".choice").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  if(!current)return;
+  document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected"); selected=btn.dataset.drink;
+ });
+});
+
+function newOrder(){
+ current=drinks[Math.floor(Math.random()*drinks.length)];
+ selected="";
+ document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
+ const customer=document.getElementById("customer");
+ customer.classList.remove("hidden");
+ customer.style.animation="none"; void customer.offsetWidth; customer.style.animation="customerEnter .8s ease both";
+ document.getElementById("bubble").textContent=customerTexts[Math.floor(Math.random()*customerTexts.length)];
+ document.getElementById("orderBox").innerHTML=`Pesanan pelanggan: <b>${current}</b>`;
+ document.getElementById("message").textContent="Pilih minuman yang sesuai, lalu sajikan!";
+}
+
+function serve(){
+ const msg=document.getElementById("message");
+ if(!current){msg.textContent="Panggil pelanggan baru dulu ya!";return}
+ if(!selected){msg.textContent="Pilih minumannya dulu, barista!";return}
+ if(selected===current){
+  score+=10; served++;
+  msg.textContent="Pesanan benar! Pelanggan senang! +10 poin";
+  document.getElementById("bubble").textContent="Wah, enak banget! Terima kasih!";
+  document.getElementById("customer").style.animation="none";
+  setTimeout(()=>{document.getElementById("customer").style.animation="customerEnter .5s ease reverse both"},1200);
+ }else{
+  score=Math.max(0,score-2);
+  msg.textContent="Ups, pesanan kurang tepat. Coba lebih teliti!";
+  document.getElementById("bubble").textContent="Kayaknya ini bukan pesananku...";
+ }
+ document.getElementById("score").textContent=score;
+ document.getElementById("served").textContent=served;
+ current="";selected="";
+ document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
+}
+</script>
+</body>
+</html>
